@@ -1,310 +1,511 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Карта желаний — на крыльях</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>На крыльях — Карта желаний</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold-main: #d4af37;
+            --gold-bright: #f9e1a9;
+            --gold-dark: #9a7b2c;
+            --text-dark: #3a352f;
+            --royal-gold: linear-gradient(135deg, #d4af37 0%, #f9e1a9 50%, #b08a57 100%);
+        }
 
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: "Montserrat", sans-serif;
+            background-color: #000;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        /* Логика языков */
+        .lang-uz { display: none !important; }
+        body.uz-mode .lang-ru { display: none !important; }
+        body.uz-mode .lang-uz { display: block !important; }
+
+        .lang-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 8px 16px;
+            border-radius: 40px;
+            backdrop-filter: blur(10px);
+            display: flex; gap: 10px; font-size: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .lang-btn { cursor: pointer; opacity: 0.4; font-weight: 600; transition: 0.3s; }
+        .lang-btn.active { opacity: 1; color: var(--gold-dark); border-bottom: 2px solid var(--gold-main); }
+
+        .main-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-block {
+            background: rgba(255, 255, 255, 0.93);
+            padding: 40px;
+            border-radius: 35px;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            text-align: center;
+            backdrop-filter: blur(8px);
+        }
+
+        h1, h2, h3 { font-family: "Cormorant Garamond", serif; color: var(--gold-dark); font-weight: 400; }
+        h1 { font-size: 42px; margin-bottom: 10px; letter-spacing: 1px; }
+
+        .subtitle {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--gold-main);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .spheres-list {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 25px;
+        }
+        .sphere-tag {
+            padding: 8px 22px;
+            border: 1px solid var(--gold-bright);
+            border-radius: 30px;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 19px;
+            color: var(--gold-dark);
+            background: #fff;
+        }
+
+        .benefit-item {
+            text-align: left;
+            margin-bottom: 18px;
+            padding-left: 35px;
+            position: relative;
+            font-size: 15px;
+        }
+        .benefit-item::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: var(--gold-main);
+            font-size: 18px;
+        }
+.offline-magic {
+    margin-top: 12px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 20px;
+    color: var(--gold-dark);
 }
 
-body {
-  font-family: "Montserrat", sans-serif;
-  color: #3E2F2A;
-  line-height: 1.7;
-  background: #000; 
+.course-intro {
+    font-size: 16px;
+    margin-bottom: 20px;
 }
 
-/* ФОНОВОЕ ВИДЕО НА ВЕСЬ САЙТ */
-.fullscreen-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -100;
-  overflow: hidden;
+.course-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 25px 0;
+    text-align: left;
 }
 
-.fullscreen-bg video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: auto;
-  height: auto;
-  min-width: 100%;
-  min-height: 100%;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-  opacity: 0.5;
+.course-benefits li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 14px;
+    font-size: 15px;
 }
 
-.section {
-  padding: 40px 16px;
-  display: flex;
-  justify-content: center;
+.course-benefits li::before {
+    content: "✦";
+    position: absolute;
+    left: 0;
+    color: var(--gold-main);
 }
 
-.container {
-  max-width: 1100px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.9); 
-  border-radius: 28px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-  padding: 52px 40px;
+.offline-note {
+    margin-top: 30px;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--gold-dark);
 }
 
-.hero {
-  text-align: center;
-  background: transparent !important;
-  box-shadow: none !important;
-  color: #FFFFFF;
-}
 
-.hero h1 {
-  font-family: "Playfair Display", serif;
-  font-size: 56px;
-  color: #B08A57;
-  margin-bottom: 18px;
-  text-shadow: 0 2px 15px rgba(0,0,0,0.5);
-}
-
-.block h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 30px;
-  color: #B08A57;
-  margin-bottom: 18px;
-}
-
-.list {
-  list-style: none;
-  margin-top: 18px;
-}
-
-.list li {
-  padding-left: 28px;
-  margin-bottom: 12px;
-  position: relative;
-}
-
-.list li::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  background: #D8B48A;
-  border-radius: 50%;
-  position: absolute;
-  left: 0;
-  top: 8px;
-}
-
-/* ВИДЕО КУРСА */
-.video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 22px;
-  margin-top: 26px;
-}
-
-.video-card {
-  background: #FFFFFF;
-  border-radius: 20px;
-  padding: 14px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-  text-align: center;
-}
-
+        /* --- НОВАЯ СЕКЦИЯ ВИДЕО --- */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        .video-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            text-align: center;
+            border: 1px solid var(--gold-bright);
+        }
 .video-card video {
-  width: 100%;
-  border-radius: 16px;
-  aspect-ratio: 16/9;
-  background: #000;
-  cursor: pointer;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    background: #000;
+    border-radius: 18px;
+    object-fit: contain;
+}
+.payment-note {
+    font-size: 14px;
+    max-width: 400px;
+    margin: 10px auto 20px;
+    color: #6b5a38;
+    opacity: 0.85;
+    text-align: center;
 }
 
-.video-card p {
-  margin: 10px 0;
-  font-size: 14px;
-  color: #6B5146;
-  font-weight: 500;
-}
+        .fs-btn {
+            background: var(--gold-dark);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 12px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 12px;
+            font-family: "Montserrat", sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: 100%;
+        }
+        .fs-btn:hover { background: var(--gold-main); }
 
-/* КНОПКА ПОЛНОГО ЭКРАНА */
-.fs-btn {
-  background: #B08A57;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 10px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: 0.3s;
-  font-family: "Montserrat", sans-serif;
-}
+        /* Оплата */
+        .section-payment {
+            background: var(--royal-gold) !important;
+            border: none !important;
+            color: #3a352f !important;
+        }
+        .price-tag {
+            font-size: 46px;
+            font-family: "Cormorant Garamond", serif;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+        .btn-main {
+            display: inline-block;
+            background: linear-gradient(135deg, #d4af37, #b08a57);
+            color: #3a352f !important;
+            text-decoration: none;
+            padding: 22px;
+            border-radius: 60px;
+            font-weight: 700;
+            width: 100%;
+            max-width: 360px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: 0.3s;
+            border: none;
+        }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); background: linear-gradient(135deg, #f9e1a9, #d4af37);
+    color: #fff; }
 
-.fs-btn:hover {
-  background: #C6A06A;
-}
+        .timer-wrap { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
+        .time-val { font-size: 36px; font-weight: 600; display: block; font-family: "Cormorant Garamond", serif; line-height: 1; }
+        .time-label { font-size: 10px; text-transform: uppercase; opacity: 0.8; }
 
-.btn {
-  display: inline-block;
-  margin-top: 26px;
-  padding: 16px 46px;
-  font-size: 18px;
-  text-decoration: none;
-  color: #ffffff;
-  background: linear-gradient(135deg, #C6A06A, #B08A57);
-  border-radius: 40px;
-  transition: 0.3s ease;
-}
-
-.highlight {
-  background: #FFF2E6;
-  border-left: 5px solid #C6A06A;
-  padding: 18px 20px;
-  border-radius: 14px;
-  margin-top: 20px;
-}
-
-.footer {
-  text-align: center;
-  padding: 70px 20px;
-  color: #FFF;
-}
-</style>
+        @media (max-width: 600px) {
+            .section-block { padding: 35px 20px; }
+            h1 { font-size: 34px; }
+            .video-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="fullscreen-bg">
-  <video autoplay muted loop playsinline>
+<video class="video-background" autoplay muted loop playsinline>
     <source src="videos/bg_hero.mp4" type="video/mp4">
-  </video>
+</video>
+
+<div class="lang-switcher">
+    <span class="lang-btn active" id="btn-ru" onclick="setLang('ru')">RU</span>
+    <span class="lang-btn" id="btn-uz" onclick="setLang('uz')">UZ</span>
 </div>
 
-<section class="section">
-  <div class="container hero">
-    <h1>Карта желаний</h1>
-    <p>Онлайн 7-дневный курс трансформации всех сфер жизни</p>
-  </div>
-</section>
+<div class="main-wrapper">
+    
+    <header class="section-block">
+        <span class="subtitle">НА КРЫЛЬЯХ — Qanotlarda</span>
+        <div class="lang-ru">
+            <h1>Карта Желаний</h1>
+            <p style="font-style: italic; color: var(--gold-dark); font-size: 18px;">Бережное путешествие к жизни вашей мечты</p>
+        </div>
+        <div class="lang-uz">
+            <h1>Orzular Kartasi</h1>
+            <p style="font-style: italic; color: var(--gold-dark); font-size: 18px;">Orzularingizdagi hayot sari ehtiyotkorona sayohat</p>
+        </div>
+    </header>
 
-<section class="section">
-  <div class="container block">
-    <h2>О курсе</h2>
-    <p>Процесс трансформации через все сферы жизни:</p>
-    <ul class="list">
-      <li>Я</li><li>Богатство</li><li>Любовь</li><li>Семья</li>
-      <li>Творчество</li><li>Карьера</li><li>Достижения</li><li>Путешествия</li>
-    </ul>
-  </div>
-</section>
+<section class="section-block">
+    <div class="lang-ru">
+        <p class="course-intro">
+            Онлайн 7-дневный курс, где я проведу вас шаг за шагом
+            через все сферы жизни:
+        </p>
 
-<section class="section">
-  <div class="container block">
-    <h2>Материалы курса</h2>
-<p>Как проходит курс</p>
-    <div class="video-grid">
-      
-      <div class="video-card">
-        <video class="course-vid" controls playsinline preload="metadata">
-          <source src="videos/vid1.mov" type="video/quicktime">
-          <source src="videos/vid1.mp4" type="video/mp4">
-        </video>
-        <p></p>
-        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
-      </div>
-
-      <div class="video-card">
-        <video class="course-vid" controls playsinline preload="metadata">
-          <source src="videos/vid2.mp4" type="video/mp4">
-        </video>
-        <p></p>
-        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
-      </div>
-
-      <div class="video-card">
-        <video class="course-vid" controls playsinline preload="metadata">
-          <source src="videos/vid3.mp4" type="video/mp4">
-        </video>
-        <p></p>
-        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
-      </div>
-
-      <div class="video-card">
-        <video class="course-vid" controls playsinline preload="metadata">
-          <source src="videos/vid4.mp4" type="video/mp4">
-        </video>
-        <p></p>
-        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
-      </div>
-
-      <div class="video-card">
-        <video class="course-vid" controls playsinline preload="metadata">
-          <source src="videos/vid5.mp4" type="video/mp4">
-        </video>
-        <p></p>
-        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
-      </div>
-
-      <div class="video-card">
-        <video class="course-vid" controls playsinline preload="metadata">
-          <source src="videos/vid6.mp4" type="video/mp4">
-        </video>
-        <p></p>
-        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
-      </div>
-
-      <div class="video-card">
-        <video class="course-vid" controls playsinline preload="metadata">
-          <source src="videos/vid7.mp4" type="video/mp4">
-        </video>
-        <p></p>
-        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
-      </div>
-
+        <div class="spheres-list">
+            <span class="sphere-tag">Я</span>
+            <span class="sphere-tag">Богатство</span>
+            <span class="sphere-tag">Любовь</span>
+            <span class="sphere-tag">Семья</span>
+            <span class="sphere-tag">Творчество</span>
+            <span class="sphere-tag">Карьера</span>
+            <span class="sphere-tag">Достижения</span>
+            <span class="sphere-tag">Путешествия</span>
+        </div>
     </div>
-  </div>
+
+    <div class="lang-uz">
+        <p class="course-intro">
+            7 kunlik onlayn kurs bo‘lib, unda men sizni
+            hayotning barcha sohalari bo‘ylab bosqichma-bosqich olib boraman:
+        </p>
+
+        <div class="spheres-list">
+            <span class="sphere-tag">Men</span>
+            <span class="sphere-tag">Boylik</span>
+            <span class="sphere-tag">Sevgi</span>
+            <span class="sphere-tag">Oila</span>
+            <span class="sphere-tag">Ijod</span>
+            <span class="sphere-tag">Karyera</span>
+            <span class="sphere-tag">Yutuqlar</span>
+            <span class="sphere-tag">Sayohatlar</span>
+        </div>
+    </div>
 </section>
 
-<section class="section">
-  <div class="container block" style="text-align:center">
-    <h2>Участие</h2>
-    <p><strong>Стоимость:</strong> 790 000 сум</p>
-    <a href="#" class="btn">Оплатить через Payme</a>
-    <div class="highlight">После оплаты отправьте чек в бот</div>
-    <a href="https://t.me/onwings_pay_bot" class="btn">Telegram-бот</a>
-  </div>
+<section class="section-block">
+    <div class="lang-ru">
+        <h2>За эти 7 дней вы:</h2>
+
+        <ul class="course-benefits">
+            <li>получите мощную систему работы с желаниями</li>
+            <li>разберёте каждое желание отдельно</li>
+            <li>превратите желания в реальные цели</li>
+            <li>поймёте, что забирает вашу энергию и где ваши точки роста</li>
+            <li>подберёте индивидуальные символы и образы для своей карты</li>
+            <li>соберёте структуру своей жизни на год вперёд</li>
+        </ul>
+
+        <p class="offline-note">
+            А после курса мы встречаемся офлайн —
+            в волшебную дату, чтобы вместе наклеить вашу Карту.
+        </p>
+
+        <p class="offline-magic">
+            Эта встреча — отдельная магия:
+            новые знакомства, женская энергия,
+            тёплая атмосфера и мощный внутренний поворот.
+        </p>
+    </div>
+
+    <div class="lang-uz">
+        <h2>7 kun davomida siz:</h2>
+
+        <ul class="course-benefits">
+            <li>orzular bilan ishlashning kuchli tizimini olasiz</li>
+            <li>har bir orzuni alohida tahlil qilasiz</li>
+            <li>orzularni aniq va real maqsadlarga aylantirasiz</li>
+            <li>energiya qayerga ketayotganini va o‘sish nuqtalaringizni tushunasiz</li>
+            <li>kartangiz uchun individual ramz va obrazlarni tanlaysiz</li>
+            <li>hayotingizning kelgusi bir yillik tuzilmasini yaratasiz</li>
+        </ul>
+
+        <p class="offline-note">
+            Kursdan so‘ng biz oflayn uchrashamiz —
+            sehrli kunda Orzular Kartangizni birga yopishtiramiz.
+        </p>
+
+        <p class="offline-magic">
+            Bu uchrashuv — alohida sehr:
+            yangi tanishuvlar, ayollik energiyasi,
+            iliq muhit va kuchli ichki burilish.
+        </p>
+    </div>
 </section>
+
+    <section class="section-block">
+        <div class="lang-ru">
+            <h2>Программа погружения</h2>
+            <p>Как проходит курс</p>
+        </div>
+        <div class="lang-uz">
+            <h2>Sho'ng'ish dasturi</h2>
+            <p>Kurs qanday o'tadi</p>
+        </div>
+
+        <div class="video-grid">
+            <div class="video-card">
+                <video class="course-vid" controls playsinline preload="metadata">
+                    <source src="videos/vid1.mp4" type="video/mp4">
+                </video>
+                <button class="fs-btn lang-ru" onclick="openFullscreen(this)">На весь экран</button>
+                <button class="fs-btn lang-uz" onclick="openFullscreen(this)">Butun ekran</button>
+            </div>
+            <div class="video-card">
+                <video class="course-vid" controls playsinline preload="metadata">
+                    <source src="videos/vid2.mp4" type="video/mp4">
+                </video>
+                <button class="fs-btn lang-ru" onclick="openFullscreen(this)">На весь экран</button>
+                <button class="fs-btn lang-uz" onclick="openFullscreen(this)">Butun ekran</button>
+            </div>
+            <div class="video-card">
+                <video class="course-vid" controls playsinline preload="metadata">
+                    <source src="videos/vid3.mp4" type="video/mp4">
+                </video>
+                <button class="fs-btn lang-ru" onclick="openFullscreen(this)">На весь экран</button>
+                <button class="fs-btn lang-uz" onclick="openFullscreen(this)">Butun ekran</button>
+            </div>
+            <div class="video-card">
+                <video class="course-vid" controls playsinline preload="metadata">
+                    <source src="videos/vid4.mp4" type="video/mp4">
+                </video>
+                <button class="fs-btn lang-ru" onclick="openFullscreen(this)">На весь экран</button>
+                <button class="fs-btn lang-uz" onclick="openFullscreen(this)">Butun ekran</button>
+            </div>
+            <div class="video-card">
+                <video class="course-vid" controls playsinline preload="metadata">
+                    <source src="videos/vid5.mp4" type="video/mp4">
+                </video>
+                <button class="fs-btn lang-ru" onclick="openFullscreen(this)">На весь экран</button>
+                <button class="fs-btn lang-uz" onclick="openFullscreen(this)">Butun ekran</button>
+            </div>
+            <div class="video-card">
+                <video class="course-vid" controls playsinline preload="metadata">
+                    <source src="videos/vid6.mp4" type="video/mp4">
+                </video>
+                <button class="fs-btn lang-ru" onclick="openFullscreen(this)">На весь экран</button>
+                <button class="fs-btn lang-uz" onclick="openFullscreen(this)">Butun ekran</button>
+            </div>
+            <div class="video-card">
+                <video class="course-vid" controls playsinline preload="metadata">
+                    <source src="videos/vid7.mp4" type="video/mp4">
+                </video>
+                <button class="fs-btn lang-ru" onclick="openFullscreen(this)">На весь экран</button>
+                <button class="fs-btn lang-uz" onclick="openFullscreen(this)">Butun ekran</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-block section-payment">
+        <div class="lang-ru"><h2>Принять участие</h2></div>
+        <div class="lang-uz"><h2>Ishtirok etish</h2></div>
+        <div class="price-tag">790 000 сум</div>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <a href="https://payme.uz/" class="btn-main lang-ru">Оплатить участие</a>
+            <a href="https://payme.uz/" class="btn-main lang-uz">Ishtirok uchun to'lov</a>
+                      <p class="payment-note lang-ru">
+    После оплаты нажмите кнопку ниже,
+    отправьте чек из Payme <br>
+    и вы будете добавлены в закрытый Telegram-канал
+</p>
+
+<p class="payment-note lang-uz">
+    To'lovdan so'ng pastdagi tugmani bosing va Payme chekini yuboring
+    <br>va siz yopiq Telegram-kanalga qo'shilasiz.
+</p>
+
+             <a href="https://t.me/onwings_pay_bot" class="btn-main lang-ru">Отправить чек в бот</a>
+            <a href="https://t.me/onwings_pay_bot" class="btn-main lang-uz">Chekni botga yuborish</a>
+        </div>
+        <div id="timer" class="timer-wrap"></div>
+    </section>
+
+</div>
+
+<footer style="text-align: center; padding: 40px; color: white; font-size: 12px; opacity: 0.7;">
+    <p>Vefa Geyushova © 2026</p>
+</footer>
 
 <script>
-  // Функция для открытия в полный экран
-  function openFullscreen(btn) {
-    const video = btn.parentElement.querySelector('video');
-    if (video.requestFullscreen) {
-      video.requestFullscreen();
-    } else if (video.webkitRequestFullscreen) {
-      video.webkitRequestFullscreen();
+const endDate = new Date("2026-02-25T00:00:00").getTime();
+
+function updateTimer() {
+    const now = new Date().getTime();
+    const diff = endDate - now;
+    const isUz = document.body.classList.contains('uz-mode');
+
+    if (diff <= 0) {
+        document.getElementById("timer").innerHTML = isUz ? "Kurs boshlandi!" : "Курс начался!";
+        return;
     }
-  }
 
-  // Обработка двойного клика для всех видео
-  document.querySelectorAll('.course-vid').forEach(video => {
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const m = Math.floor((diff / (1000 * 60)) % 60);
+    const s = Math.floor((diff / 1000) % 60);
+
+    const labels = isUz ? ['kun', 'soat', 'daq', 'son'] : ['дней', 'часов', 'мин', 'сек'];
+
+    document.getElementById("timer").innerHTML = `
+        <div><span class="time-val">${d}</span><span class="time-label">${labels[0]}</span></div>
+        <div><span class="time-val">${h}</span><span class="time-label">${labels[1]}</span></div>
+        <div><span class="time-val">${m}</span><span class="time-label">${labels[2]}</span></div>
+        <div><span class="time-val">${s}</span><span class="time-label">${labels[3]}</span></div>
+    `;
+}
+
+function setLang(lang) {
+    if (lang === 'uz') document.body.classList.add('uz-mode');
+    else document.body.classList.remove('uz-mode');
+    document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
+    document.getElementById('btn-uz').classList.toggle('active', lang === 'uz');
+    updateTimer();
+}
+
+function openFullscreen(btn) {
+    const video = btn.parentElement.querySelector('video');
+    if (video.requestFullscreen) video.requestFullscreen();
+    else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+    else if (video.msRequestFullscreen) video.msRequestFullscreen();
+}
+
+// Двойной клик по видео
+document.querySelectorAll('.course-vid').forEach(video => {
     video.addEventListener('dblclick', function() {
-      if (this.requestFullscreen) {
-        this.requestFullscreen();
-      } else if (this.webkitRequestFullscreen) {
-        this.webkitRequestFullscreen();
-      }
+        if (this.requestFullscreen) this.requestFullscreen();
+        else if (this.webkitRequestFullscreen) this.webkitRequestFullscreen();
     });
-  });
-</script>
+});
 
+setInterval(updateTimer, 1000);
+updateTimer();
+</script>
 </body>
 </html>
