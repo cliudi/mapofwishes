@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Карта желаний — на крыльях</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  color: #3E2F2A;
+  line-height: 1.7;
+  background: #000; 
+}
+
+/* ФОНОВОЕ ВИДЕО НА ВЕСЬ САЙТ */
+.fullscreen-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -100;
+  overflow: hidden;
+}
+
+.fullscreen-bg video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: auto;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+.section {
+  padding: 40px 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1100px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9); 
+  border-radius: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  padding: 52px 40px;
+}
+
+.hero {
+  text-align: center;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #FFFFFF;
+}
+
+.hero h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 56px;
+  color: #B08A57;
+  margin-bottom: 18px;
+  text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+}
+
+.block h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 30px;
+  color: #B08A57;
+  margin-bottom: 18px;
+}
+
+.list {
+  list-style: none;
+  margin-top: 18px;
+}
+
+.list li {
+  padding-left: 28px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.list li::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: #D8B48A;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 8px;
+}
+
+/* ВИДЕО КУРСА */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+  margin-top: 26px;
+}
+
+.video-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  padding: 14px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.video-card video {
+  width: 100%;
+  border-radius: 16px;
+  aspect-ratio: 16/9;
+  background: #000;
+  cursor: pointer;
+}
+
+.video-card p {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #6B5146;
+  font-weight: 500;
+}
+
+/* КНОПКА ПОЛНОГО ЭКРАНА */
+.fs-btn {
+  background: #B08A57;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: "Montserrat", sans-serif;
+}
+
+.fs-btn:hover {
+  background: #C6A06A;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 26px;
+  padding: 16px 46px;
+  font-size: 18px;
+  text-decoration: none;
+  color: #ffffff;
+  background: linear-gradient(135deg, #C6A06A, #B08A57);
+  border-radius: 40px;
+  transition: 0.3s ease;
+}
+
+.highlight {
+  background: #FFF2E6;
+  border-left: 5px solid #C6A06A;
+  padding: 18px 20px;
+  border-radius: 14px;
+  margin-top: 20px;
+}
+
+.footer {
+  text-align: center;
+  padding: 70px 20px;
+  color: #FFF;
+}
+</style>
+</head>
+
+<body>
+
+<div class="fullscreen-bg">
+  <video autoplay muted loop playsinline>
+    <source src="videos/bg_hero.mp4" type="video/mp4">
+  </video>
+</div>
+
+<section class="section">
+  <div class="container hero">
+    <h1>Карта желаний</h1>
+    <p>Онлайн 7-дневный курс трансформации всех сфер жизни</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container block">
+    <h2>О курсе</h2>
+    <p>Процесс трансформации через все сферы жизни:</p>
+    <ul class="list">
+      <li>Я</li><li>Богатство</li><li>Любовь</li><li>Семья</li>
+      <li>Творчество</li><li>Карьера</li><li>Достижения</li><li>Путешествия</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container block">
+    <h2>Материалы курса</h2>
+<p>Как проходит курс</p>
+    <div class="video-grid">
+      
+      <div class="video-card">
+        <video class="course-vid" controls playsinline preload="metadata">
+          <source src="videos/vid1.mov" type="video/quicktime">
+          <source src="videos/vid1.mp4" type="video/mp4">
+        </video>
+        <p></p>
+        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
+      </div>
+
+      <div class="video-card">
+        <video class="course-vid" controls playsinline preload="metadata">
+          <source src="videos/vid2.mp4" type="video/mp4">
+        </video>
+        <p></p>
+        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
+      </div>
+
+      <div class="video-card">
+        <video class="course-vid" controls playsinline preload="metadata">
+          <source src="videos/vid3.mp4" type="video/mp4">
+        </video>
+        <p></p>
+        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
+      </div>
+
+      <div class="video-card">
+        <video class="course-vid" controls playsinline preload="metadata">
+          <source src="videos/vid4.mp4" type="video/mp4">
+        </video>
+        <p></p>
+        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
+      </div>
+
+      <div class="video-card">
+        <video class="course-vid" controls playsinline preload="metadata">
+          <source src="videos/vid5.mp4" type="video/mp4">
+        </video>
+        <p></p>
+        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
+      </div>
+
+      <div class="video-card">
+        <video class="course-vid" controls playsinline preload="metadata">
+          <source src="videos/vid6.mp4" type="video/mp4">
+        </video>
+        <p></p>
+        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
+      </div>
+
+      <div class="video-card">
+        <video class="course-vid" controls playsinline preload="metadata">
+          <source src="videos/vid7.mp4" type="video/mp4">
+        </video>
+        <p></p>
+        <button class="fs-btn" onclick="openFullscreen(this)">На весь экран</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container block" style="text-align:center">
+    <h2>Участие</h2>
+    <p><strong>Стоимость:</strong> 790 000 сум</p>
+    <a href="#" class="btn">Оплатить через Payme</a>
+    <div class="highlight">После оплаты отправьте чек в бот</div>
+    <a href="https://t.me/onwings_pay_bot" class="btn">Telegram-бот</a>
+  </div>
+</section>
+
+<script>
+  // Функция для открытия в полный экран
+  function openFullscreen(btn) {
+    const video = btn.parentElement.querySelector('video');
+    if (video.requestFullscreen) {
+      video.requestFullscreen();
+    } else if (video.webkitRequestFullscreen) {
+      video.webkitRequestFullscreen();
+    }
+  }
+
+  // Обработка двойного клика для всех видео
+  document.querySelectorAll('.course-vid').forEach(video => {
+    video.addEventListener('dblclick', function() {
+      if (this.requestFullscreen) {
+        this.requestFullscreen();
+      } else if (this.webkitRequestFullscreen) {
+        this.webkitRequestFullscreen();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
